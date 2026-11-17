@@ -106,7 +106,7 @@ try {
   await page
     .getByRole("button", { name: "Catálogo de produtos", exact: true })
     .click();
-  await page.getByPlaceholder("Buscar nome ou SKU").fill(sku);
+  await page.getByRole("textbox", { name: "Buscar nome ou SKU", exact: true }).fill(sku);
   await productCard.getByRole("button", { name: "Editar produto" }).click();
   await page.waitForFunction(
     (value) =>
