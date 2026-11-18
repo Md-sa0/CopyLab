@@ -12,6 +12,8 @@ Aplicação full-stack para automação de conteúdo no varejo eletrônico: cat�
 
 **Tema:** Automação da geração de conteúdo publicitário para o varejo eletrônico utilizando microsserviços e modelos de linguagem de larga escala (LLMs) com garantia de saídas estruturadas e cache determinístico.
 
+**Estado da entrega:** há uma pendência de auditoria em dependência de desenvolvimento; consulte [SECURITY.md](SECURITY.md). Os testes funcionais e o acesso localhost foram aprovados.
+
 ## Demonstração local simples (sem certificado)
 
 Pré-requisito: Docker Desktop/Engine iniciado, com Compose v2 e contêineres Linux. Na pasta do projeto, execute:
