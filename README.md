@@ -8,19 +8,25 @@ Aplicação full-stack para automação de conteúdo no varejo eletrônico: cat�
 
 **Aluno:** Marcus David Nascimento de Sá
 
-**Orientador:** Prof. Me. Ítalo César Carvalho Lima
+**Orientador:** Prof. Esp. Ítalo César Carvalho Lima
 
 **Tema:** Automação da geração de conteúdo publicitário para o varejo eletrônico utilizando microsserviços e modelos de linguagem de larga escala (LLMs) com garantia de saídas estruturadas e cache determinístico.
 
-## Iniciar com um comando
+## Demonstração local simples (sem certificado)
 
-Pré-requisito: Docker Engine/Desktop em execução, com Docker Compose v2 e suporte a contêineres Linux. No diretório do projeto:
+Pré-requisito: Docker Desktop/Engine iniciado, com Compose v2 e contêineres Linux. Na pasta do projeto, execute:
 
 ```sh
-docker compose up --build
+docker compose -p copylab-local -f compose.local.yml up --build
 ```
 
-Antes da primeira execução, gere o certificado HTTPS local na seção abaixo. Depois abra [a aplicação](https://localhost:8443). O primeiro build baixa dependências. As migrações Alembic são aplicadas automaticamente antes de iniciar a API; o frontend aguarda sua prontidão. O frontend local usa Vite com hot reload: alterações em `frontend/src` são refletidas no navegador automaticamente, sem rebuild. O Compose monta o código-fonte e mantém as dependências Node em um volume.
+Abra http://localhost:8080 no mesmo computador. Crie sua conta, entre no catálogo, clique em **Criar produtos de exemplo**, gere um texto e repita para observar HIT nas métricas. O modo padrão é simulado, sem chave paga. A porta é restrita ao próprio computador (127.0.0.1), sem certificado nem IP de rede fixo. Para encerrar: `docker compose -p copylab-local -f compose.local.yml down` (preserva os dados).
+
+Esta demonstração utiliza PostgreSQL e Redis reais em contêineres; somente a geração de conteúdo é simulada. Não é uma hospedagem pública. O caminho HTTPS opcional abaixo serve para acesso pela rede local.
+
+## Execução HTTPS opcional
+
+O arquivo `docker-compose.yml` original continua disponível para desenvolvimento HTTPS e exige certificados configurados antes de `docker compose up --build`.
 
 ### Acessar em celulares e outros computadores da mesma rede
 
@@ -104,6 +110,10 @@ docker compose exec api python seed_and_benchmark.py --url http://localhost:8000
 ```
 
 O padrão usa novos IDs/SKUs para obter um cenário inicial sem cache sem apagar dados anteriores. `--reuse-catalog` permite que a primeira rodada seja HIT; os relatórios sempre usam o status efetivamente observado. Com um provedor real configurado pela interface, as chamadas podem consumir sua cota. Para experimentos, use uma base dedicada e registre configuração e data; veja [o protocolo experimental](docs/BENCHMARK.md).
+
+## Versão científica e direitos
+
+A tag `tcc-2026.2-final` identifica o fechamento de 17/11. Os dados em `research/version-c` mantêm seus commits de execução originais; a tag de depósito não significa que as medições foram refeitas. Todos os direitos reservados; consulte `LICENSE`.
 
 ## O que foi implementado
 
