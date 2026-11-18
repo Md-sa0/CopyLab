@@ -4,10 +4,10 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview --host 127.0.0.1",
-    "test": "vitest run",
+    "dev": "rsbuild dev",
+    "build": "tsc -b && rsbuild build",
+    "preview": "rsbuild preview --port 4173",
+    "test": "node --test src/validation.test.ts",
     "test:e2e": "node e2e.mjs",
     "test:responsive": "node responsiveness.mjs"
   },
@@ -19,15 +19,15 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@rsbuild/core": "^2.3.3",
+    "@rsbuild/plugin-react": "^2.1.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "22",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.4.0",
     "playwright": "^1.63.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.3.3",
-    "typescript": "~5.8.3",
-    "vite": "^6.4.6",
-    "vitest": "^4.1.12"
+    "typescript": "~5.8.3"
   }
 }

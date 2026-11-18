@@ -38,7 +38,7 @@ copylab/
 │   ├── postcss.config.js
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
-│   └── vite.config.ts
+│   └── rsbuild.config.ts
 ├── migrations/
 │   ├── versions/
 │   │   └── 0001_initial.py

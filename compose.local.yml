@@ -82,15 +82,13 @@ services:
     - 0.0.0.0
     - --port
     - '8080'
-    - --strictPort
+    - --strict-port
     environment:
       API_PROXY_TARGET: http://api:8000
       APP_PUBLIC_SCHEME: http
     restart: unless-stopped
     ports:
     - 127.0.0.1:8080:8080
-    volumes:
-    - frontend_node_modules:/app/node_modules
     networks:
     - edge
     depends_on:
@@ -109,7 +107,6 @@ services:
 volumes:
   postgres_data: null
   redis_data: null
-  frontend_node_modules: null
 networks:
   data:
     internal: true

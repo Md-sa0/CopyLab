@@ -1,4 +1,12 @@
-# Situação de segurança em 17/11/2026
+# Situação de segurança
+
+## Correção posterior à entrega acadêmica
+
+O frontend passou a usar Rsbuild para compilar e servir a aplicação e o executor nativo do Node.js para rodar os testes unitários. A troca removeu o picomatch da árvore de dependências. Após uma instalação limpa (`npm ci`), `npm audit --audit-level=high` reportou zero vulnerabilidades conhecidas nas dependências npm. O GitHub Actions continua executando a auditoria completa do frontend.
+
+A tag `tcc-2026.2-final` continua identificando a versão avaliada no artigo. O registro histórico abaixo descreve o estado daquela versão.
+
+## Situação registrada em 17/11/2026
 
 O npm audit identificou GHSA-fc5q-39xc-vjpf (picomatch <=4.0.7, dependência transitiva das ferramentas Vite/Vitest). O aviso foi atualizado em 17/11 e não lista versão corrigida. Não foi aplicado downgrade automático nem desabilitada a auditoria.
 

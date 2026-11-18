@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import {
   formatProductValidationError,
   parseAttributes,
   productSchema,
-} from "./validation";
+} from "./validation.ts";
 
 const valid = {
   sku: "SKU-01",
@@ -15,45 +16,47 @@ const valid = {
 };
 describe("contrato do catálogo", () => {
   it("normaliza espaços e Unicode", () =>
-    expect(productSchema.parse({ ...valid, name: " Cafe\u0301 " }).name).toBe(
+    assert.equal(
+      productSchema.parse({ ...valid, name: " Cafe\u0301 " }).name,
       "Café",
     ));
   it("rejeita campos em branco", () =>
-    expect(productSchema.safeParse({ ...valid, name: "  " }).success).toBe(
+    assert.equal(
+      productSchema.safeParse({ ...valid, name: "  " }).success,
       false,
     ));
   it("rejeita coerção de números e campos extras", () => {
-    expect(productSchema.safeParse({ ...valid, sku: 12 }).success).toBe(false);
-    expect(productSchema.safeParse({ ...valid, unexpected: 1 }).success).toBe(
-      false,
-    );
+    assert.equal(productSchema.safeParse({ ...valid, sku: 12 }).success, false);
+    assert.equal(productSchema.safeParse({ ...valid, unexpected: 1 }).success, false);
   });
   it("exige atributos e benefícios únicos", () => {
-    expect(
+    assert.equal(
       productSchema.safeParse({ ...valid, technical_attributes: {} }).success,
-    ).toBe(false);
-    expect(
+      false,
+    );
+    assert.equal(
       productSchema.safeParse({
         ...valid,
         key_benefits: ["Portátil", " Portátil "],
       }).success,
-    ).toBe(false);
+      false,
+    );
   });
   it("preserva dois pontos nos valores e rejeita chaves duplicadas", () => {
-    expect(parseAttributes("horário: 10:30")).toEqual({ horário: "10:30" });
-    expect(() => parseAttributes("cor: azul\n cor: verde")).toThrow(
-      "Há atributos repetidos.",
+    assert.deepEqual(parseAttributes("horário: 10:30"), { horário: "10:30" });
+    assert.throws(
+      () => parseAttributes("cor: azul\n cor: verde"),
+      { message: /Há atributos repetidos\./ },
     );
-    expect(() => parseAttributes("cor: azul\nsem separador")).toThrow(
-      "Linha 2:",
+    assert.throws(
+      () => parseAttributes("cor: azul\nsem separador"),
+      { message: /Linha 2:/ },
     );
-    expect(() => parseAttributes("cor: ")).toThrow("informe o valor depois");
+    assert.throws(() => parseAttributes("cor: "), { message: /informe o valor depois/ });
   });
   it("explica erros do cadastro sem expor mensagens técnicas", () => {
     const invalid = productSchema.safeParse({ ...valid, sku: "SKU inválido" });
     if (invalid.success) throw new Error("O SKU deveria ser rejeitado.");
-    expect(formatProductValidationError(invalid.error)).toContain(
-      "Confira o SKU",
-    );
+    assert.match(formatProductValidationError(invalid.error), /Confira o SKU/);
   });
 });
